@@ -3,3 +3,50 @@
 	padding: 0px;
 }
 
+body, html{
+	min-height: 100%;
+	text-align: center;
+}
+
+/* ESTILOS PARA EL CARTÓN */
+.carton{
+	margin:100px auto;
+	text-align: center;
+	vertical-align: middle;
+	width: 600px;
+	height: 200px;
+	border-color: #D24D57;
+}
+
+.carton tr{
+	padding: 5px;
+}
+
+.carton td{
+	width: 10%; /*Si se pasa el porcentaje el resto de td quedan a tamaño de su contenido, ejemplo: 9 td's a tamaño 20%, son más del 100%*/
+	border-radius: 10px;
+	color: #D24D57;
+	font-weight: bold;
+	font-size: 1.6em;
+	-webkit-transition:All 0.3s ease;
+  	-moz-transition:All 0.3s ease;
+  	-o-transition:All 0.3s ease;
+}
+
+.hueco{
+	background-image: url(../img/bombo.png);
+	background-position: center;
+	background-size: 100%;
+	background-color: #D24D57;
+}
+
+.marcada{
+	background-image: url(../img/marca.png);
+	background-position: top right;
+	background-repeat: no-repeat;
+	background-size: 40%;
+	-webkit-transition:All 0.3s ease;
+  	-moz-transition:All 0.3s ease;
+  	-o-transition:All 0.3s ease;
+}
+
