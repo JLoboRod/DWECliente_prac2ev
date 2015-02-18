@@ -2,23 +2,56 @@ console.log("app.js cargado...");
 
 document.addEventListener("DOMContentLoaded", Iniciar(), false);
 
+/**
+ * Se ejecuta al cargar el contenido DOM
+ */
 function Iniciar(){
 	var carton = new Carton();
 	carton.generar();
 	DibujaCarton(carton.get_carton());
+	DibujaBotónBingo();
+	NumeroBombo(12);
 }
 
 /**
- * Crea el tablero en zonadibujo
+ * Muestra el número de bombo "numero" en pantalla 
+ * @param {[type]} numero [description]
+ */
+function NumeroBombo(numero){
+	document.getElementById("zona_bombo").innerHTML = "<div class='numero_bombo'>" + numero + "</div>";
+}
+
+/**
+ * Dibuja el botón para cantar Bingo
+ * @return {[type]} [description]
+ */
+function DibujaBotónBingo(){
+	var boton = document.createElement("input");
+	boton.setAttribute("type", "button");
+	boton.classList.add("button");
+	boton.setAttribute("id", "cantar_bingo");
+	boton.setAttribute("value", "Cantar Bingo!");
+	boton.addEventListener("click", function(){CantarBingo();}, false);
+	document.getElementById("zona_carton").appendChild(boton);
+}
+
+/**
+ * Función Cantar Bingo
+ */
+function CantarBingo(){
+	console.log("Han cantado Bingo!");
+}
+
+/**
+ * Dibuja el Carton c en pantalla
+ * @param {[type]} c [description]
  */
 function DibujaCarton(c)
 {
  	console.log("Dibujando carton...");
  	var carton = document.createElement("table");
- 	
  	carton.setAttribute("class", "carton");
  	carton.setAttribute("border", "1");
- 	
 	for(var i=0;i<c.length;i++){ //Controla las filas
 		var fila = document.createElement("tr");
 		
@@ -32,15 +65,12 @@ function DibujaCarton(c)
 				celda.innerHTML = c[i][j].valor;
 				celda.addEventListener("click", function(){Marcar(this.id, c);}, false); //Establecemos listener de tipo click 	
 			}
-			
 			fila.appendChild(celda); //Añadimos la celda a la fila		
 		}
-
 		carton.appendChild(fila); //Añadimos la fila al carton
 	}
-
 	//Por último, agregamos la carton al div correspondiente
-	var zonacarton = document.getElementById("carton");
+	var zonacarton = document.getElementById("zona_carton");
 	zonacarton.appendChild(carton);
 }
 
