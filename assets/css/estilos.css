@@ -1,6 +1,7 @@
 *{
 	margin: 0px;
 	padding: 0px;
+	font-family: tahoma;
 }
 
 div#contenedor{
@@ -15,12 +16,17 @@ div#menu{
 	height: 700px;
 	background-color: green;
 }
+input#jugadores, input#precio{
+	width: 20%;
+	position: relative;
+	float:right;
+	right: 15px;
+}
 div#principal{
 	position:absolute;
 	right: 0px;
 	width: 80%;
 	height: 700px;
-	
 }
 div#zona_bombo{
 	margin:auto;
@@ -33,7 +39,6 @@ div#zona_bombo{
 	background-color: #D24D57;
 	text-align: center;
 }
-
 div.numero_bombo{
 	position:relative;
 	top:35%;
@@ -41,13 +46,11 @@ div.numero_bombo{
 	font-size: 3em;
 	font-weight: bold;
 }
-
 div#zona_carton{
 	margin:auto;
 	padding: 20px;
 	width: 100%;
 	height: 460px;
-	background-color: purple;
 	text-align: center; 
 }
 
@@ -70,7 +73,6 @@ div#zona_carton{
 .carton tr{
 	padding: 5px;
 }
-
 .carton td{
 	width: 10%; /*Si se pasa el porcentaje el resto de td quedan a tamaño de su contenido, ejemplo: 9 td's a tamaño 20%, son más del 100%*/
 	border-radius: 10px;
@@ -81,14 +83,12 @@ div#zona_carton{
   	-moz-transition:All 0.3s ease;
   	-o-transition:All 0.3s ease;
 }
-
 .hueco{
 	background-image: url(../img/bombo.png);
 	background-position: center;
 	background-size: 100%;
 	background-color: #D24D57;
 }
-
 .marcada{
 	background-image: url(../img/marca.png);
 	background-position: top right;

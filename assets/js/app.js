@@ -2,15 +2,81 @@ console.log("app.js cargado...");
 
 document.addEventListener("DOMContentLoaded", Iniciar(), false);
 
+//GLOBAL
+var cartones = []; //Tendremos una lista de cartones
+var numerosBingo = []; //Los números que van saliendo
+
+/**
+ * Función que establece los listeners a los distintos controles
+ */
+function setListeners(){
+	document.getElementById("jugadores").addEventListener("blur", function(){onBlurJugadores();}, false);
+	document.getElementById("precio").addEventListener("blur", function(){onBlurPrecio();}, false);
+	document.getElementById("btn_comenzar").addEventListener("click", function(){IniciarJuego();}, false);
+
+	console.log("Listeners asignados...");
+}
+
 /**
  * Se ejecuta al cargar el contenido DOM
  */
 function Iniciar(){
-	var carton = new Carton();
-	carton.generar();
-	DibujaCarton(carton.get_carton());
+	setListeners();
+}
+
+/**
+ * Función que inicia el juego
+ */
+function IniciarJuego(){
+	var input_jugadores = document.getElementById("jugadores");
+	var input_precio = document.getElementById("precio");
+	var btn_comenzar = document.getElementById("btn_comenzar");
+
+
+	//Deshabilitamos los controles
+	input_jugadores.disabled = true;
+	input_precio.disabled = true;
+	btn_comenzar.disabled = true;
+
+	for (var i = 0; i < input_jugadores.value; i++) {
+		var carton = new Carton();
+		carton.generar();
+		cartones.push(carton);	
+	};
+
+	DibujaCarton(cartones[0].get_carton());
 	DibujaBotónBingo();
 	NumeroBombo(12);
+}
+
+/**
+ * Controla que no se sobrepasen los valores apropiados
+ * en el número de jugadores
+ * @return {[type]} [description]
+ */
+function onBlurJugadores(){
+	var jugadores = document.getElementById("jugadores");
+	if(jugadores.value<5){
+		jugadores.value = 5;
+	}
+	else if(jugadores.value>20){
+		jugadores.value = 20;
+	}
+}
+
+/**
+ * Controla que no se sobrepasen los valores apropiados
+ * en el precio de los cartones
+ * @return {[type]} [description]
+ */
+function onBlurPrecio(){
+	var precio = document.getElementById("precio");
+	if(precio.value<1){
+		precio.value = 1;
+	}
+	else if(precio.value>5){
+		precio.value = 5;
+	}
 }
 
 /**
