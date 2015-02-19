@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", Iniciar(), false);
 //GLOBAL
 var cartones = []; //Tendremos una lista de cartones
 var numerosBingo = []; //Los números que van saliendo
+var ejecucion;
 
 /**
  * Función que establece los listeners a los distintos controles
@@ -22,6 +23,7 @@ function setListeners(){
  */
 function Iniciar(){
 	setListeners();
+	NumeroBombo("BINGOJS");
 }
 
 /**
@@ -46,7 +48,7 @@ function IniciarJuego(){
 
 	DibujaCarton(cartones[0].get_carton());
 	DibujaBotónBingo();
-	NumeroBombo(12);
+	ejecucion = setInterval(GetNumeroFromServer, 3000); //3 segundos
 }
 
 /**
@@ -77,6 +79,28 @@ function onBlurPrecio(){
 	else if(precio.value>5){
 		precio.value = 5;
 	}
+}
+
+/**
+ * Toma un número aleatorio mediante AJAX
+ */
+function GetNumeroFromServer(){
+	var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			if(numerosBingo.indexOf(xmlhttp.responseText) == -1)
+			{
+				console.log(xmlhttp.responseText);
+				numerosBingo.push(xmlhttp.responseText);
+				NumeroBombo(numerosBingo[numerosBingo.length - 1]); //Actualizamos la zona_bombo
+			}
+			else{
+				GetNumeroFromServer();
+			}
+		}
+    }
+    xmlhttp.open("POST", "server.php", true);
+    xmlhttp.send();
 }
 
 /**
