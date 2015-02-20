@@ -3,6 +3,7 @@ console.log("app.js cargado...");
 document.addEventListener("DOMContentLoaded", Iniciar(), false);
 
 //GLOBAL
+const TIEMPO = 1000; //5 segundos
 var cartones = []; //Tendremos una lista de cartones
 var numerosBingo = []; //Los números que van saliendo
 var ejecucion;
@@ -38,13 +39,14 @@ function Resetear(){
 	document.getElementById("btn_comenzar").disabled = false;
 
 	//Reinicializamos variables
+	clearInterval(ejecucion);
 	numerosBingo = [];
 	cartones = [];
-	clearInterval(ejecucion);
 
 	//Borramos carton y botón de bingo
 	document.getElementById("zona_carton").removeChild(document.getElementById("cantar_bingo"));
 	document.getElementById("zona_carton").removeChild(document.getElementById("carton"));
+
 	NumeroBombo("BINGOJS");
 }
 
@@ -73,7 +75,7 @@ function IniciarJuego(){
 
 	DibujaCarton(cartones[0].get_carton());
 	DibujaBotónBingo();
-	ejecucion = setInterval(SiguienteNumero, 1000); //3 segundos
+	ejecucion = setInterval(SiguienteNumero, TIEMPO); //3 segundos
 }
 
 /**
@@ -110,8 +112,11 @@ function onBlurPrecio(){
  * Función que se ejecuta cada vez que sale un nuevo número
  */
 function SiguienteNumero(){
-	if(numerosBingo.length<91){
+	if(numerosBingo.length<90){
 		GetNumeroFromServer();
+		if(numerosBingo.length>0){
+			NumeroBombo(numerosBingo[numerosBingo.length - 1]); //Actualizamos la zona_bombo
+		}
 		if(ComprobarRestoBingos()){
 			MostrarMensaje("Han cantado Bingo! Se acabó el juego.");
 			Resetear();
@@ -134,7 +139,6 @@ function GetNumeroFromServer(){
 			{
 				console.log(xmlhttp.responseText);
 				numerosBingo.push(parseInt(xmlhttp.responseText));
-				NumeroBombo(numerosBingo[numerosBingo.length - 1]); //Actualizamos la zona_bombo
 			}
 			else{
 				GetNumeroFromServer();
