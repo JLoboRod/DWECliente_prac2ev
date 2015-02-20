@@ -205,7 +205,7 @@ function Marcar(id, carton){
 function ComprobarBingo(numerosCarton){
 	var comprobar = true;
 	do{
-		comprobar = numerosBombo.indexOf(numerosCarton.shift()) != -1;
+		comprobar = numerosBingo.indexOf(numerosCarton.shift()) != -1;
 	}while(comprobar);
 
 	return comprobar;
