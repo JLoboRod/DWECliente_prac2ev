@@ -6,11 +6,13 @@ document.addEventListener("DOMContentLoaded", Iniciar(), false);
 var cartones = []; //Tendremos una lista de cartones
 var numerosBingo = []; //Los números que van saliendo
 var ejecucion;
+var jugadores;
+var precio;
 
 /**
  * Función que establece los listeners a los distintos controles
  */
-function setListeners(){
+function SetListeners(){
 	document.getElementById("jugadores").addEventListener("blur", function(){onBlurJugadores();}, false);
 	document.getElementById("precio").addEventListener("blur", function(){onBlurPrecio();}, false);
 	document.getElementById("btn_comenzar").addEventListener("click", function(){IniciarJuego();}, false);
@@ -22,7 +24,27 @@ function setListeners(){
  * Se ejecuta al cargar el contenido DOM
  */
 function Iniciar(){
-	setListeners();
+	SetListeners();
+	NumeroBombo("BINGOJS");
+}
+
+/**
+ * Resetea la aplicación
+ */
+function Resetear(){
+	//Habilitamos controles de nuevo
+	document.getElementById("jugadores").disabled = false;
+	document.getElementById("precio").disabled = false;
+	document.getElementById("btn_comenzar").disabled = false;
+
+	//Reinicializamos variables
+	numerosBingo = [];
+	cartones = [];
+	clearInterval(ejecucion);
+
+	//Borramos carton y botón de bingo
+	document.getElementById("zona_carton").removeChild(document.getElementById("cantar_bingo"));
+	document.getElementById("zona_carton").removeChild(document.getElementById("carton"));
 	NumeroBombo("BINGOJS");
 }
 
@@ -34,6 +56,9 @@ function IniciarJuego(){
 	var input_precio = document.getElementById("precio");
 	var btn_comenzar = document.getElementById("btn_comenzar");
 
+	//Inicializamos variables globales
+	jugadores = input_jugadores.value;
+	precio = input_precio.value;
 
 	//Deshabilitamos los controles
 	input_jugadores.disabled = true;
@@ -48,7 +73,7 @@ function IniciarJuego(){
 
 	DibujaCarton(cartones[0].get_carton());
 	DibujaBotónBingo();
-	ejecucion = setInterval(GetNumeroFromServer, 3000); //3 segundos
+	ejecucion = setInterval(SiguienteNumero, 1000); //3 segundos
 }
 
 /**
@@ -82,16 +107,33 @@ function onBlurPrecio(){
 }
 
 /**
+ * Función que se ejecuta cada vez que sale un nuevo número
+ */
+function SiguienteNumero(){
+	if(numerosBingo.length<91){
+		GetNumeroFromServer();
+		if(ComprobarRestoBingos()){
+			MostrarMensaje("Han cantado Bingo! Se acabó el juego.");
+			Resetear();
+		}
+	}
+	else{
+		MostrarMensaje("Se acabaron los números...");
+		Resetear();
+	}
+}
+
+/**
  * Toma un número aleatorio mediante AJAX
  */
 function GetNumeroFromServer(){
 	var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			if(numerosBingo.indexOf(xmlhttp.responseText) == -1)
+			if(numerosBingo.indexOf(parseInt(xmlhttp.responseText)) == -1)
 			{
 				console.log(xmlhttp.responseText);
-				numerosBingo.push(xmlhttp.responseText);
+				numerosBingo.push(parseInt(xmlhttp.responseText));
 				NumeroBombo(numerosBingo[numerosBingo.length - 1]); //Actualizamos la zona_bombo
 			}
 			else{
@@ -155,7 +197,7 @@ function DibujaCarton(c)
 {
  	console.log("Dibujando carton...");
  	var carton = document.createElement("table");
- 	carton.setAttribute("class", "carton");
+ 	carton.setAttribute("id", "carton");
  	carton.setAttribute("border", "1");
 	for(var i=0;i<c.length;i++){ //Controla las filas
 		var fila = document.createElement("tr");
@@ -203,10 +245,25 @@ function Marcar(id, carton){
  * @param {[type]} numerosCarton [description]
  */
 function ComprobarBingo(numerosCarton){
+	console.log(numerosCarton);
 	var comprobar = true;
 	do{
 		comprobar = numerosBingo.indexOf(numerosCarton.shift()) != -1;
-	}while(comprobar);
+	}while(comprobar && numerosCarton.length>0);
 
 	return comprobar;
+}
+
+/**
+ * Comprueba si el resto de cartones tienen Bingo
+ */
+function ComprobarRestoBingos(){
+	var bingo = false;
+	if(numerosBingo.length>=15){ //Si no tenemos 15 números no es necesario comprobar Bingo	
+		i = 1; //Empezamos en 1 porque el cartón 0 es el del jugador
+		while(!bingo && i<jugadores){
+			bingo = ComprobarBingo(cartones[i++].get_numeros());
+		}
+	}
+	return bingo;
 }

@@ -55,7 +55,7 @@ div#zona_carton{
 }
 
 /* ESTILOS PARA EL CARTÓN */
-.carton{
+#carton{
 	margin: auto;
 	text-align: center;
 	vertical-align: middle;
@@ -65,15 +65,15 @@ div#zona_carton{
 	background-color: white;
 }
 
-.carton.cabecera{
+#carton.cabecera{
 	font-size: 2em;
 	font-weight: bold;
 }
 
-.carton tr{
+#carton tr{
 	padding: 5px;
 }
-.carton td{
+#carton td{
 	width: 10%; /*Si se pasa el porcentaje el resto de td quedan a tamaño de su contenido, ejemplo: 9 td's a tamaño 20%, son más del 100%*/
 	border-radius: 10px;
 	color: #D24D57;
