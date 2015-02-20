@@ -7,7 +7,19 @@ var Carton = function(){
 	this.generar = function(){
 		//Creamos las columnas y vamos insertándolas en el cartón
 		for (var j = 0; j < 9; j++) {
-			var columna = (j==8)? Alea(10*j, 10*(j+1), 3):Alea(10*j, 10*(j+1)-1, 3);
+			
+			var columna;
+
+			if(j==0){
+				columna = Alea(10*j+1, 10*(j+1)-1, 3);
+			}
+			else if(j==8){
+				columna = Alea(10*j, 10*(j+1), 3);
+			}
+			else{
+				columna = Alea(10*j, 10*(j+1)-1, 3);
+			}
+
 			columna.sort(function(a,b){return a-b;}); //Ordenamos los valores de menor a mayor
 			for(var i = 0; i < 3; i++)
 			{
