@@ -40,6 +40,17 @@ var Carton = function(){
 		};
 		return result.sort(function(a,b){return a-b;}); //Con esto devolvemos el resultado ordenado
 	}
+	this.get_numeros = function(){
+		var result = [];
+		for (var i = 0; i < _c.length; i++) {
+			for (var j = 0; j < _c[i].length; j++) {
+				if(_c[i][j].valor != -1){
+					result.push(_c[i][j].valor);
+				}
+			};
+		};
+		return result.sort(function(a,b){return a-b;}); //Con esto devolvemos el resultado ordenado
+	}
 
 	return this; 
 };

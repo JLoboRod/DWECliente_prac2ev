@@ -130,6 +130,21 @@ function DibujaBotónBingo(){
  */
 function CantarBingo(){
 	console.log("Han cantado Bingo!");
+
+	if(ComprobarBingo(cartones[0].get_marcados())){ //DUDA: Comprobamos marcados o números??
+		MostrarMensaje("Bingo Correcto!"); //Falta mostrar puntuación
+	}
+	else{
+		MostrarMensaje("Bingo Incorrecto. Seguimos jugando!");
+	}
+}
+
+/**
+ * Muestra un mensaje mediante alert
+ * @param {[type]} msj [description]
+ */
+function MostrarMensaje(msj){
+	alert(msj);
 }
 
 /**
@@ -181,4 +196,17 @@ function Marcar(id, carton){
  		carton[posicion[0]][posicion[1]].marcada = true;
  		celda.classList.add('marcada');
  	}
+}
+
+/**
+ * Comprueba si un Bingo es correcto
+ * @param {[type]} numerosCarton [description]
+ */
+function ComprobarBingo(numerosCarton){
+	var comprobar = true;
+	do{
+		comprobar = numerosBombo.indexOf(numerosCarton.shift()) != -1;
+	}while(comprobar);
+
+	return comprobar;
 }
