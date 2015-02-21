@@ -4,11 +4,13 @@ document.addEventListener("DOMContentLoaded", Iniciar(), false);
 
 //GLOBAL
 const TIEMPO = 1000; //5 segundos
+const ANCHO = 600, ALTO = 300; //Dimensiones de las ventanas emergentes
 var cartones = []; //Tendremos una lista de cartones
 var numerosBingo = []; //Los números que van saliendo
 var ejecucion;
 var jugadores;
 var precio;
+var ventana;
 
 /**
  * Función que establece los listeners a los distintos controles
@@ -39,7 +41,7 @@ function Resetear(){
 	document.getElementById("btn_comenzar").disabled = false;
 
 	//Reinicializamos variables
-	clearInterval(ejecucion);
+	Parar_Ejecucion();
 	numerosBingo = [];
 	cartones = [];
 
@@ -75,7 +77,21 @@ function IniciarJuego(){
 
 	DibujaCarton(cartones[0].get_carton());
 	DibujaBotónBingo();
-	ejecucion = setInterval(SiguienteNumero, TIEMPO); //3 segundos
+	Iniciar_Ejecucion();
+}
+
+/**
+ * Para la ejecución setInterval
+ */
+function Parar_Ejecucion(){
+	clearInterval(ejecucion);
+}
+
+/**
+ * Inicia la ejecución
+ */
+function Iniciar_Ejecucion(){
+	ejecucion = setInterval(SiguienteNumero, TIEMPO);
 }
 
 /**
@@ -117,10 +133,12 @@ function SiguienteNumero(){
 		if(numerosBingo.length>0){
 			NumeroBombo(numerosBingo[numerosBingo.length - 1]); //Actualizamos la zona_bombo
 		}
+		/*
 		if(ComprobarRestoBingos()){
 			MostrarMensaje("Han cantado Bingo! Se acabó el juego.");
 			Resetear();
 		}
+		*/
 	}
 	else{
 		MostrarMensaje("Se acabaron los números...");
@@ -159,7 +177,6 @@ function NumeroBombo(numero){
 
 /**
  * Dibuja el botón para cantar Bingo
- * @return {[type]} [description]
  */
 function DibujaBotónBingo(){
 	var boton = document.createElement("input");
@@ -173,17 +190,37 @@ function DibujaBotónBingo(){
 }
 
 /**
+ * Abre una ventana emergente con la url
+ * pasada como parámetro
+ * @param {[type]} url [description]
+ */
+function AbrirVentana(url){
+	var opciones = "width=" + ANCHO + ", height=" + ALTO + ",left=" + eval((window.innerWidth - ANCHO)/2) + " , top=" + eval((window.innerHeight - ALTO)/2) + ", directories=no, menubar=no,status=no,toolbar=no,location=no,scrollbars=no,fullscreen=no";
+	return window.open(url, "BINGO", opciones);
+}
+
+
+/**
  * Función Cantar Bingo
  */
 function CantarBingo(){
 	console.log("Han cantado Bingo!");
-
-	if(ComprobarBingo(cartones[0].get_marcados())){ //DUDA: Comprobamos marcados o números??
-		MostrarMensaje("Bingo Correcto!"); //Falta mostrar puntuación
+	Parar_Ejecucion();
+	if(ComprobarBingo(cartones[0].get_numeros())){ //DUDA: Comprobamos marcados o números??
+		//MostrarMensaje("Bingo Correcto!"); //Falta mostrar puntuación
+		ventana = AbrirVentana("bingo_correcto.html");
 	}
 	else{
-		MostrarMensaje("Bingo Incorrecto. Seguimos jugando!");
+		//MostrarMensaje("Bingo Incorrecto. Seguimos jugando!");
+		ventana = AbrirVentana("bingo_incorrecto.html");
 	}
+}
+
+/**
+ * Devuelve el premio del bingo
+ */
+function Premio(){
+	return eval(0.8*(jugadores*precio)/CartonesPremiados());
 }
 
 /**
@@ -250,7 +287,7 @@ function Marcar(id, carton){
  * @param {[type]} numerosCarton [description]
  */
 function ComprobarBingo(numerosCarton){
-	console.log(numerosCarton);
+	//DEBUG: console.log(numerosCarton);
 	var comprobar = true;
 	do{
 		comprobar = numerosBingo.indexOf(numerosCarton.shift()) != -1;
@@ -271,4 +308,17 @@ function ComprobarRestoBingos(){
 		}
 	}
 	return bingo;
+}
+
+/**
+ * Devuelve el número de cartones premiados
+ */
+function CartonesPremiados(){
+	var premiados = 0;
+	for(var i=0;i<cartones.length;i++){
+		if(ComprobarBingo(cartones[i].get_numeros())){
+			premiados++;
+		}
+	}
+	return premiados;
 }

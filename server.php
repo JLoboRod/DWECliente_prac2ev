@@ -1,3 +1,3 @@
 <?php
-	echo rand(0,90);
+	echo rand(1,90);
 ?>
