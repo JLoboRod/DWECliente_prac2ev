@@ -1,26 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Bingo</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/estilos.css">
 </head>
 <body>
 	<div id="contenedor">
-		<div id="menu">
-			<h1>Opciones</h1>
-			<label>Jugadores (5-20)</label>
-			<input type="number" id="jugadores" min="5" max="20" value="5">
-			<br>
-			<label>Precio del cartón (1-5€)</label>
-			<input type="number" id="precio" min="1" max="5" value="1">
-			<br>
-			<input type="button" id="btn_comenzar" value="Comenzar Juego">
+		<div id="sidebar">
+				<div class="panel shadow" id="autor">
+					<a href="http://es.linkedin.com/in/jloborod/" target="_blanck">
+					<img class="avatar" src="assets/img/autor.jpg">
+					<p id="nombre">Joaquín Lobo Rodríguez</p>
+					<p id="info">2ºDAW - DWECliente</p>
+					</a>
+				</div>
+			<div class="panel shadow" id="menu">
+				<h1>Opciones</h1>
+				<div class="elemento">
+					<label>Jugadores (5-20)</label>
+					<input type="number" id="jugadores" min="5" max="20" value="5">
+				</div>
+				<div class="elemento">
+					<label>Precio del cartón (1-5€)</label>
+					<input type="number" id="precio" min="1" max="5" value="1">
+				</div>
+				<div class="elemento">
+				<input type="button" class="btn btn-rojo" id="btn_comenzar" value="Comenzar Juego">
+				</div>
+			</div>
 		</div>
 		<div id="principal">
-			<div id="zona_bombo"></div>
-			<div id="zona_carton"></div>
+			<div class="panel shadow" id="zona_bombo"></div>
+			<div class="panel shadow" id="zona_carton"></div>
 		</div>
 	</div>
 </body>

@@ -164,7 +164,8 @@ function NumeroBombo(numero){
 function DibujaBotónBingo(){
 	var boton = document.createElement("input");
 	boton.setAttribute("type", "button");
-	boton.classList.add("button");
+	boton.classList.add("btn");
+	boton.classList.add("btn-rojo");
 	boton.setAttribute("id", "cantar_bingo");
 	boton.setAttribute("value", "Cantar Bingo!");
 	boton.addEventListener("click", function(){CantarBingo();}, false);
