@@ -239,6 +239,7 @@ function DibujaCarton(c)
 {
  	console.log("Dibujando carton...");
  	var carton = document.createElement("table");
+ 	carton.classList.add("shadow"); //Para añadir sombra al cartón
  	carton.setAttribute("id", "carton");
  	carton.setAttribute("border", "1");
 	for(var i=0;i<c.length;i++){ //Controla las filas
