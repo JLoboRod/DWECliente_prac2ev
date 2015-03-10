@@ -1,5 +1,13 @@
+/***********************************
+ * Autor: Joaquín Lobo Rodríguez   *
+ * Fecha creación: 13/01/2015      *
+ * Última modificación: 10/03/2015 * 
+ * Versión: 1.00                   *
+ ***********************************/
+
 console.log("carton.js cargado...");
 
+//Función generadora de cartones de bingo
 var Carton = function(){
 
 	var _c = [[],[],[]];

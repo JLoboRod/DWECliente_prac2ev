@@ -1,9 +1,16 @@
+/***********************************
+ * Autor: Joaquín Lobo Rodríguez   *
+ * Fecha creación: 13/01/2015      *
+ * Última modificación: 10/03/2015 * 
+ * Versión: 1.00                   *
+ ***********************************/
+
 console.log("app.js cargado...");
 
 document.addEventListener("DOMContentLoaded", Iniciar(), false);
 
 //GLOBAL
-const TIEMPO = 1000; //5 segundos
+const TIEMPO = 5000; //Tiempo entre bola y bola en milisegundos
 const ANCHO = 600, ALTO = 300; //Dimensiones de las ventanas emergentes
 var cartones = []; //Tendremos una lista de cartones
 var numerosBingo = []; //Los números que van saliendo
@@ -133,8 +140,8 @@ function SiguienteNumero(){
 		if(numerosBingo.length>0){
 			NumeroBombo(numerosBingo[numerosBingo.length - 1]); //Actualizamos la zona_bombo
 		}
-		/*
-		if(ComprobarRestoBingos()){
+		/*//Este trozo de código se puede habilitar para comprobar el resto de cartones
+		if(numerosBingo.length>=15 && ComprobarRestoBingos()){
 			MostrarMensaje("Han cantado Bingo! Se acabó el juego.");
 			Resetear();
 		}
